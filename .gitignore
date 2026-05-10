@@ -1,6 +1,16 @@
 .obsidian/
 .claude/settings.local.json
 .DS_Store
+
+# User data (lives in vault, not repo)
 00_config/.vault-path
 02_sessions/*.md
 !02_sessions/_template.md
+
+# Secrets and environment
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+token.json
