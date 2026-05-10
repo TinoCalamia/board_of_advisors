@@ -3,14 +3,15 @@ type: config
 last-updated: 2026-05-10
 ---
 
-# Business Context
+# Business Context (Template)
 
-This is what the board knows about you and your business. Fill this in by running `/setup` or edit directly. The more specific you are, the better the advice.
+> Your actual context lives in your Obsidian vault at `board/config/context.md`.
+> Run `/setup` to create it, or copy this file to your vault and edit it.
 
 ## Company
 
-- **Name:**
-- **What it does:**
+- **Name:** [Your company name]
+- **What it does:** [One sentence]
 - **Stage:** (idea / pre-revenue / post-revenue / scaling / mature)
 - **Founded:**
 - **Revenue model:**

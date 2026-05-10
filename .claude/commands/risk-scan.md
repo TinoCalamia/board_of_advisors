@@ -16,8 +16,9 @@ If no topic was provided, ask for one. Good risk scan topics are specific decisi
 
 ## Step 1 — Load context
 
-1. Read `00_config/board.md` for active advisors and data sources
-2. Dispatch `context-loader` with: "Risk analysis of: {topic}. Gather all context relevant to evaluating the risks of this decision."
+1. Read `00_config/.vault-path` to get the vault path. If the file does not exist, tell the user: "No vault configured. Run `/setup` first to connect your Obsidian vault." and stop.
+2. Read `{vault_path}/board/config/board.md` for active advisors and data sources
+3. Dispatch `context-loader` with: "Risk analysis of: {topic}. Gather all context relevant to evaluating the risks of this decision."
 
 ## Step 2 — Dispatch advisors (risk-only mode)
 
@@ -66,6 +67,6 @@ Dispatch `board-synthesizer` with all responses and this additional instruction:
 
 ## Step 4 — Record and output
 
-Save to `02_sessions/{YYYY-MM-DD}-risk-scan-{slug}.md` with `session-type: risk-scan`.
+Save to `{vault_path}/board/sessions/{YYYY-MM-DD}-risk-scan-{slug}.md` with `session-type: risk-scan`.
 
 Display the risk matrix and synthesis. Highlight the top 3 consensus risks prominently.

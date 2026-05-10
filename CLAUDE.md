@@ -1,8 +1,6 @@
 # Board of Advisors
 
-A virtual advisory council of eight legendary minds, each a Claude Code subagent with a distinct voice, decision-making framework, and domain expertise. Ask a strategic question — get eight perspectives, then a synthesized recommendation.
-
-The repo doubles as an **Obsidian vault** — keep files agent-readable AND human-browsable.
+A virtual advisory council of nine legendary minds, each a Claude Code subagent with a distinct voice, decision-making framework, and domain expertise. Ask a strategic question — get nine perspectives, then a synthesized recommendation.
 
 ## The Board
 
@@ -18,16 +16,32 @@ The repo doubles as an **Obsidian vault** — keep files agent-readable AND huma
 | 08 | Harvey Specter | Negotiation & Special Sit. | "I don't have dreams. I have goals." | Negotiations, partnerships, contracts, high-stakes conversations |
 | 09 | Alex Hormozi | Sales & Offer Design | "Make people an offer so good they feel stupid saying no." | Pricing, offer design, sales process, lead generation, retention, revenue growth |
 
+## Vault pointer
+
+User configuration and session data are stored in the user's Obsidian vault, NOT in this repo. This keeps the repo clean and distributable — no one accidentally pushes their private business data.
+
+The file `00_config/.vault-path` contains the absolute path to the user's vault. Every skill reads this file first. If it does not exist, the user must run `/setup`.
+
+**Vault structure (created by `/setup`):**
+
+```
+{vault}/board/
+  config/
+    board.md       — board configuration (data sources, advisor flags, session defaults)
+    context.md     — business context (company, priorities, numbers, competitors)
+  sessions/        — session records (dated logs of every convening, debate, review)
+```
+
 ## How this repo is organized
 
 | Folder | Purpose |
 |---|---|
-| `00_config/` | Board configuration: data sources, active advisors, user business context. Source of truth for who you are and what you're building. |
+| `00_config/` | Template config files and local vault pointer (`.vault-path`). User config lives in their vault at `board/config/`. |
 | `01_advisors/` | Deep persona files for each advisor: biography, philosophy, frameworks, quotes, mental models. The knowledge base powering each subagent. |
-| `02_sessions/` | Session records: dated logs of every board convening, debate, and review. Institutional memory. |
+| `02_sessions/` | Session template only. Live session records are saved to the user's vault at `board/sessions/`. |
 | `03_playbooks/` | Procedural guides: how each session type runs step by step. |
 | `lib/` | Shared scripts (hooks). |
-| `dashboards/` | Obsidian Dataview dashboards. Agents never read these. |
+| `dashboards/` | Obsidian Dataview dashboards (reference copies). |
 | `templates/` | Obsidian Templater templates. |
 
 ## Skills (Claude Code slash commands)
@@ -39,7 +53,7 @@ The repo doubles as an **Obsidian vault** — keep files agent-readable AND huma
 | `/convene-board <question>` | Full board session: all active advisors respond in parallel, synthesizer produces INSIGHTS / RISKS / OPTIONS / RECOMMENDATION |
 | `/debate <question>` | Multi-round debate: advisors take positions, then rebut each other before synthesis |
 | `/strategic-review` | Comprehensive business assessment: each advisor reviews their domain using vault data |
-| `/risk-scan <topic>` | Risk analysis from all 8 perspectives, produces a risk matrix |
+| `/risk-scan <topic>` | Risk analysis from all 9 perspectives, produces a risk matrix |
 
 ## How the board works
 
@@ -48,6 +62,8 @@ User Question
     |
     v
 Orchestrator (skill)
+    |
+    +-- reads 00_config/.vault-path --> finds user's vault
     |
     +-- context-loader subagent --> reads vault + Drive + Notion + Gmail + Calendar + web
     |                               --> returns compressed business context (max 400 words)
@@ -61,7 +77,7 @@ Orchestrator (skill)
 
 ## Data sources
 
-The board reads from multiple sources configured in `00_config/board.md`:
+The board reads from multiple sources configured in the user's vault at `board/config/board.md`:
 
 - **Obsidian vault** (primary): local path, discovered via `find`/`grep`
 - **Google Drive**: via MCP tools (opt-in)
@@ -74,18 +90,18 @@ If a source is not configured or its MCP server is not connected, the context-lo
 
 ## Token efficiency rules
 
-1. **Never read all 8 persona files at once.** For `/ask`, read only the one advisor. For `/convene-board`, the orchestrator dispatches 8 parallel subagents — each reads only its own persona.
+1. **Never read all 9 persona files at once.** For `/ask`, read only the one advisor. For `/convene-board`, the orchestrator dispatches 9 parallel subagents — each reads only its own persona.
 2. **For vault context**: use `context-loader` subagent. It uses `grep`/`find` first, then reads only matched files.
 3. **Dashboard files** are for Obsidian only — never read them.
 4. **Session records**: only read if the user explicitly asks for history. Do not load proactively.
 
 ## Operating principles
 
-1. **Config is source of truth.** Always read `00_config/board.md` and `00_config/context.md` before any session.
+1. **Vault pointer is the bootstrap.** Always read `00_config/.vault-path` first, then read `{vault_path}/board/config/board.md` and `{vault_path}/board/config/context.md` before any session.
 2. **Each advisor stays in character.** The subagent must embody the advisor's voice, values, and frameworks. No generic AI filler.
 3. **Disagreement is the point.** Advisors should disagree. The value is in the tension between perspectives.
 4. **Context over speculation.** If data is missing, say so rather than speculate.
-5. **Session records are dated.** ISO dates (`YYYY-MM-DD`) in filenames.
+5. **Session records are dated.** ISO dates (`YYYY-MM-DD`) in filenames. Saved to user's vault.
 6. **No sycophancy.** Advisors push back. They challenge assumptions.
 
 ## Frontmatter convention
@@ -116,7 +132,7 @@ See [Steve Jobs persona](01_advisors/steve-jobs/persona.md) for his thinking sty
 ## Naming conventions
 
 - Advisor slug: lowercase-hyphenated (e.g., `steve-jobs`, `warren-buffett`)
-- Session files: `02_sessions/YYYY-MM-DD-slug.md`
+- Session files: `{vault}/board/sessions/YYYY-MM-DD-slug.md`
 - All dates: ISO format (`YYYY-MM-DD`)
 
 ## When in doubt

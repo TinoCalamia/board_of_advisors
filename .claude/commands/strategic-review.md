@@ -8,17 +8,22 @@ allowed-tools: [Read, Write, Edit, Glob, Bash, WebSearch, WebFetch, mcp__claude_
 
 A comprehensive business assessment. Unlike `/convene-board` (which asks one question), this skill gives each advisor a domain-specific review question and produces a full strategic picture.
 
-## Step 1 — Deep context gathering
+## Step 1 — Load configuration
+
+1. Read `00_config/.vault-path` to get the vault path. If the file does not exist, tell the user: "No vault configured. Run `/setup` first to connect your Obsidian vault." and stop.
+2. Read `{vault_path}/board/config/board.md` for active advisors and data sources
+
+## Step 2 — Deep context gathering
 
 Dispatch `context-loader` with a broad mandate: "Comprehensive business review — gather all available context about the company, product, financials, team, marketing, sales, competitors, and recent activity."
 
 The context-loader should do a broad scan across all enabled data sources, returning up to 800 words of context.
 
-## Step 2 — Read business context
+## Step 3 — Read business context
 
-Read `00_config/context.md` directly as well, to supplement the context-loader's findings.
+Read `{vault_path}/board/config/context.md` directly as well, to supplement the context-loader's findings.
 
-## Step 3 — Dispatch advisors with domain-specific questions
+## Step 4 — Dispatch advisors with domain-specific questions
 
 Dispatch ALL active advisors in parallel. Instead of one shared question, each advisor gets a domain-specific review prompt:
 
@@ -34,9 +39,9 @@ Dispatch ALL active advisors in parallel. Instead of one shared question, each a
 | Harvey Specter | "Review the deal landscape: What partnerships, negotiations, or deals should be on the table? Where is leverage being left unused? What relationships need attention?" |
 | Alex Hormozi | "Review the offer and sales engine: Is the offer irresistible? Are they charging enough? What's broken in the lead-to-revenue pipeline?" |
 
-Pass each advisor the full business context from Steps 1-2.
+Pass each advisor the full business context from Steps 2-3.
 
-## Step 4 — Synthesize
+## Step 5 — Synthesize
 
 Dispatch `board-synthesizer` with all responses. The synthesis should be structured as a strategic review:
 
@@ -59,8 +64,8 @@ Dispatch `board-synthesizer` with all responses. The synthesis should be structu
 {Emerging risks or inflection points to monitor}
 ```
 
-## Step 5 — Record and output
+## Step 6 — Record and output
 
-Save to `02_sessions/{YYYY-MM-DD}-strategic-review.md` with `session-type: review`.
+Save to `{vault_path}/board/sessions/{YYYY-MM-DD}-strategic-review.md` with `session-type: review`.
 
 Display the full synthesis. This is the most comprehensive output the board produces — give it the space it needs.

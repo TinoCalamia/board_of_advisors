@@ -16,11 +16,12 @@ If no question was provided, ask for one. The question should be strategic and o
 
 ## Step 1 — Load configuration
 
-1. Read `00_config/board.md` to determine:
+1. Read `00_config/.vault-path` to get the vault path. If the file does not exist, tell the user: "No vault configured. Run `/setup` first to connect your Obsidian vault." and stop.
+2. Read `{vault_path}/board/config/board.md` to determine:
    - Which advisors are active
    - Which data sources are enabled
    - Session defaults (max words, save preference)
-2. Read `00_config/context.md` for the business overview
+3. Read `{vault_path}/board/config/context.md` for the business overview
 
 ## Step 2 — Gather context
 
@@ -51,7 +52,7 @@ It returns the structured synthesis: INSIGHTS | RISKS | OPTIONS | RECOMMENDATION
 
 ## Step 5 — Record the session
 
-If `save_sessions` is true in board config, write the full session to `02_sessions/{YYYY-MM-DD}-{slug}.md`:
+If `save_sessions` is true in board config, write the full session to `{vault_path}/board/sessions/{YYYY-MM-DD}-{slug}.md`:
 
 ```yaml
 ---
@@ -74,6 +75,6 @@ Then the full content:
 
 Display the synthesis to the user. Format it cleanly with headers.
 
-Then note: "Full session saved to `02_sessions/{filename}`" and list which advisors participated.
+Then note: "Full session saved to `board/sessions/{filename}` in your vault" and list which advisors participated.
 
 If any advisor's perspective was particularly strong or contrarian, highlight it: "Notable: {Advisor} raised a point worth deeper exploration."

@@ -19,9 +19,15 @@ case "$FILE_PATH" in
     ;;
 esac
 
-# Find the most recent session file
+# Read vault path from pointer file
+VAULT_PATH_FILE="00_config/.vault-path"
+if [ ! -f "$VAULT_PATH_FILE" ]; then
+  exit 0
+fi
+VAULT_PATH=$(cat "$VAULT_PATH_FILE")
+SESSION_DIR="${VAULT_PATH}/board/sessions"
+
 TODAY=$(date +%Y-%m-%d)
-SESSION_DIR="02_sessions"
 
 if [ ! -d "$SESSION_DIR" ]; then
   exit 0

@@ -15,8 +15,8 @@ Good questions:
 - "Should we hire a VP Sales or build a sales team bottom-up?"
 
 Bad questions (use `/ask` instead):
-- "What should our headline be?" → `/ask ogilvy`
-- "How should we structure this deal?" → `/ask specter`
+- "What should our headline be?" -> `/ask ogilvy`
+- "How should we structure this deal?" -> `/ask specter`
 
 ## The Flow
 
@@ -31,7 +31,7 @@ Bad questions (use `/ask` instead):
    |
 5. Synthesis: INSIGHTS | RISKS | OPTIONS | RECOMMENDATION | DISSENT
    |
-6. Session saved to 02_sessions/
+6. Session saved to board/sessions/ in your vault
 ```
 
 ## What You Get
@@ -45,6 +45,6 @@ Bad questions (use `/ask` instead):
 ## Tips
 
 - Be specific in your question. "How should we grow?" is too broad. "Should we double down on content marketing or invest in outbound sales?" gives the board something to work with.
-- Fill in `00_config/context.md` thoroughly — the more the board knows about your business, the more specific the advice.
+- Fill in your business context thoroughly (run `/setup` or edit `board/config/context.md` in your vault) — the more the board knows about your business, the more specific the advice.
 - Read the DISSENT section carefully. The minority view is often the one that prevents a blind spot.
 - Run a follow-up `/debate` if a particular tension is worth exploring deeper.

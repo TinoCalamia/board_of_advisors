@@ -3,7 +3,10 @@ type: config
 last-updated: 2026-05-10
 ---
 
-# Board Configuration
+# Board Configuration (Template)
+
+> Your actual config lives in your Obsidian vault at `board/config/board.md`.
+> Run `/setup` to create it.
 
 ## Data Sources
 
@@ -11,11 +14,7 @@ The board reads context from these sources. Set the ones you use.
 
 ### Obsidian Vault (primary)
 
-Local path to your Obsidian vault. The context-loader will discover relevant files automatically.
-
-```
-vault_path: ""
-```
+The vault path is stored locally in the board repo at `00_config/.vault-path` (created by `/setup`). The context-loader uses that pointer to discover relevant files automatically.
 
 ### Connected Services (optional)
 
@@ -34,7 +33,7 @@ google_drive: false
 notion: false
 gmail: false
 google_calendar: false
-web_search: true
+web_search: false
 ```
 
 ## Active Advisors
@@ -58,5 +57,5 @@ Advisors with `active: true` participate in board sessions. Deactivate any you d
 ```
 max_advisor_words: 300
 save_sessions: true
-session_dir: 02_sessions/
+session_dir: board/sessions/
 ```

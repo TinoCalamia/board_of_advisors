@@ -1,3 +1,6 @@
 .obsidian/
 .claude/settings.local.json
 .DS_Store
+00_config/.vault-path
+02_sessions/*.md
+!02_sessions/_template.md

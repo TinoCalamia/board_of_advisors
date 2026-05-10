@@ -8,13 +8,20 @@ allowed-tools: [Read, Write, Edit, Bash, mcp__claude_ai_Gmail__list_labels, mcp_
 
 Walk the user through configuring their board of advisors. This is a guided conversation — ask each section, confirm, then write.
 
+All user data (config, context, sessions) is stored in the user's Obsidian vault under `board/`, NOT in this repo. This repo is the tool — it stays clean and distributable.
+
 ## Step 1 — Read current config
 
-Read `00_config/board.md` and `00_config/context.md` to see what's already configured. If values are already set, show them and ask if the user wants to update.
+Check if `00_config/.vault-path` exists. If it does:
+1. Read the vault path from it
+2. Read `{vault_path}/board/config/board.md` and `{vault_path}/board/config/context.md`
+3. Show the user what's already configured and ask if they want to update
+
+If `.vault-path` does not exist, this is a fresh setup.
 
 ## Step 2 — Vault path
 
-Ask: "What is the path to your Obsidian vault? This is where the board reads your business data from. Example: `/Users/you/Documents/my-vault`"
+Ask: "What is the path to your Obsidian vault? This is where the board stores your config, session records, and reads your business data from. Example: `/Users/you/Documents/my-vault`"
 
 Validate the path exists using `ls`. If it doesn't exist, tell the user and ask again.
 
@@ -26,7 +33,18 @@ find {vault_path} -name "*.md" -not -path "*/.obsidian/*" -not -path "*/.git/*" 
 
 Report: "Found {N} markdown files in your vault. The board will search these for relevant context when you ask questions."
 
-Update `vault_path` in `00_config/board.md`.
+Write the vault path to `00_config/.vault-path` (single line, just the path, no newline at the end).
+
+Create the vault-side directory structure:
+
+```bash
+mkdir -p {vault_path}/board/config
+mkdir -p {vault_path}/board/sessions
+```
+
+If `{vault_path}/board/config/board.md` does not already exist, create it by copying the template structure from `00_config/board.md` and filling in the vault path.
+
+If `{vault_path}/board/config/context.md` does not already exist, create it from the template in `00_config/context.md`.
 
 ## Step 3 — Auto-detect connected services
 
@@ -78,11 +96,11 @@ For any service that is NOT connected, briefly explain how to connect it:
 
 You can re-run `/setup` anytime after connecting new services."
 
-Update the enabled flags in `00_config/board.md` based on what actually responded. Only set `true` for services that successfully responded.
+Update the enabled flags in `{vault_path}/board/config/board.md` based on what actually responded. Only set `true` for services that successfully responded.
 
 ## Step 4 — Business context
 
-Tell the user: "Now let's give the board context about your business. The more specific you are, the more actionable the advice. Answer each question — you can always update these later in `00_config/context.md`."
+Tell the user: "Now let's give the board context about your business. The more specific you are, the more actionable the advice. Answer each question — you can always update these later by editing `board/config/context.md` in your vault."
 
 Ask these questions one at a time. Wait for each answer before asking the next:
 
@@ -95,7 +113,7 @@ Ask these questions one at a time. Wait for each answer before asking the next:
 7. "Any key numbers you want the board to know? (Revenue, runway, growth rate, customer count, etc.)"
 8. "Who are your main competitors and what's your differentiation?"
 
-Write all answers to `00_config/context.md`, preserving the existing structure and filling in the fields.
+Write all answers to `{vault_path}/board/config/context.md`, preserving the existing structure and filling in the fields.
 
 ## Step 5 — Board composition
 
@@ -113,9 +131,9 @@ Show the full board:
 | 08 | Harvey Specter | Negotiation & Special Situations |
 | 09 | Alex Hormozi | Sales & Offer Design |
 
-Ask: "All 9 advisors are active by default. Do you want to deactivate any? (You can change this anytime by editing `00_config/board.md`)"
+Ask: "All 9 advisors are active by default. Do you want to deactivate any? (You can change this anytime by editing `board/config/board.md` in your vault)"
 
-Update active flags if needed.
+Update active flags in `{vault_path}/board/config/board.md` if needed.
 
 ## Step 6 — Confirmation
 
@@ -128,6 +146,8 @@ Setup complete!
   Stage:          {stage}
   Team:           {size}
   Vault:          {path} ({N} files)
+  Board config:   {path}/board/config/
+  Sessions:       {path}/board/sessions/
   Data sources:   {list of connected sources}
   Active advisors: {count}/9
 

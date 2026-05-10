@@ -36,9 +36,10 @@ If no question was provided after the advisor name, ask for one.
 
 ## Step 2 — Load context
 
-1. Read `00_config/board.md` for data source configuration
-2. Read `00_config/context.md` for business overview
-3. Dispatch the `context-loader` subagent with the question and board config. It returns a compressed context summary.
+1. Read `00_config/.vault-path` to get the vault path. If the file does not exist, tell the user: "No vault configured. Run `/setup` first to connect your Obsidian vault." and stop.
+2. Read `{vault_path}/board/config/board.md` for data source configuration
+3. Read `{vault_path}/board/config/context.md` for business overview
+4. Dispatch the `context-loader` subagent with the question and board config. It returns a compressed context summary.
 
 ## Step 3 — Dispatch advisor
 

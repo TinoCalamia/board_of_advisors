@@ -134,9 +134,12 @@ claude
 ```
 
 The `/setup` command walks you through:
-- Connecting your Obsidian vault (or other data sources)
+- Connecting your Obsidian vault (where your config and sessions will be stored)
+- Auto-detecting connected data sources (Gmail, Calendar, Drive, Notion)
 - Filling in your business context (stage, team, priorities, key numbers)
 - Choosing which advisors to activate
+
+> **Your data stays in your vault.** Board config, business context, and session records are saved to a `board/` folder inside your Obsidian vault — never in this repo. This means you can clone/fork this repo without worrying about leaking private data.
 
 ---
 
@@ -172,7 +175,7 @@ Advisors take positions, then respond to each other's arguments in a second roun
 /debate Should we build our own AI model or use APIs?
 ```
 
-**Output:** Round 1 positions → Fault lines → Round 2 rebuttals → Synthesis
+**Output:** Round 1 positions -> Fault lines -> Round 2 rebuttals -> Synthesis
 
 ### `/strategic-review` — Full Business Assessment
 
@@ -193,41 +196,41 @@ All advisors focus exclusively on what could go wrong with a specific initiative
 /risk-scan hiring a VP Sales
 ```
 
-**Output:** Risk Matrix (severity × likelihood) | Top 3 Consensus Risks | Contrarian Risk | Prerequisites for Success
+**Output:** Risk Matrix (severity x likelihood) | Top 3 Consensus Risks | Contrarian Risk | Prerequisites for Success
 
 ---
 
 ## How It Works
 
 ```
-                          ┌─────────────────┐
-                          │   Your Question  │
-                          └────────┬────────┘
-                                   │
-                          ┌────────▼────────┐
-                          │   Orchestrator   │
-                          │  (slash command) │
-                          └────────┬────────┘
-                                   │
-                    ┌──────────────┼──────────────┐
-                    │              │               │
-           ┌───────▼───────┐      │      ┌────────▼────────┐
-           │ Context Loader │      │      │   9 Advisors    │
-           │                │      │      │  (in parallel)  │
-           │ Vault + Drive  │      │      │                 │
-           │ + Notion + Web │      │      │ Each reads its  │
-           │ + Gmail + Cal  │──────┘      │ own persona +   │
-           └───────┬───────┘              │ frameworks      │
-                   │                      └────────┬────────┘
-                   │    Business Context           │
-                   └──────────┐                    │  9 Perspectives
-                              │                    │
-                     ┌────────▼────────────────────▼──┐
-                     │       Board Synthesizer         │
-                     │                                 │
-                     │  INSIGHTS | RISKS | OPTIONS     │
-                     │  RECOMMENDATION | DISSENT       │
-                     └─────────────────────────────────┘
+                          +-------------------+
+                          |   Your Question   |
+                          +---------+---------+
+                                    |
+                          +---------v---------+
+                          |   Orchestrator    |
+                          |  (slash command)  |
+                          +---------+---------+
+                                    |
+                     +--------------+---------------+
+                     |              |                |
+            +--------v--------+    |       +--------v---------+
+            | Context Loader  |    |       |   9 Advisors     |
+            |                 |    |       |  (in parallel)   |
+            | Vault + Drive   |    |       |                  |
+            | + Notion + Web  |----+       | Each reads its   |
+            | + Gmail + Cal   |            | own persona +    |
+            +--------+--------+            | frameworks       |
+                     |                     +--------+---------+
+                     |    Business Context          |
+                     +----------+                   |  9 Perspectives
+                                |                   |
+                       +--------v-------------------v---+
+                       |       Board Synthesizer        |
+                       |                                |
+                       |  INSIGHTS | RISKS | OPTIONS    |
+                       |  RECOMMENDATION | DISSENT      |
+                       +--------------------------------+
 ```
 
 1. **You ask** a strategic question via a slash command
@@ -235,7 +238,7 @@ All advisors focus exclusively on what could go wrong with a specific initiative
 3. **Each advisor** reads its own persona file (biography, philosophy, thinking style) and frameworks file (4-8 decision models), then responds in character
 4. **All 9 advisors run in parallel** — not sequentially
 5. **Board Synthesizer** collects all perspectives and produces the structured output
-6. **Session is saved** to `02_sessions/` for future reference
+6. **Session is saved** to `board/sessions/` in your Obsidian vault
 
 ---
 
@@ -252,9 +255,28 @@ The board reads from multiple sources to give advisors real context about your b
 | **Google Calendar** | Upcoming commitments, meeting schedule | Optional (MCP) |
 | **Web Search** | Current market data, competitor info, trends | On by default |
 
-Configure data sources via `/setup` or edit `00_config/board.md` directly.
+Configure data sources via `/setup` or edit `board/config/board.md` in your Obsidian vault directly.
 
 > **Note:** Google Drive, Notion, Gmail, and Calendar require MCP servers to be connected in Claude Code. If not connected, the context loader skips them gracefully.
+
+---
+
+## Where Data Lives
+
+This repo is the **tool** — it contains advisor personas, frameworks, skills, and playbooks. It does not contain your private data.
+
+All user-specific data lives in your **Obsidian vault** under a `board/` folder:
+
+```
+your-vault/
+  board/
+    config/
+      board.md       # Your board configuration (data sources, advisor flags)
+      context.md     # Your business context (company, priorities, numbers)
+    sessions/        # Session transcripts (every board convening, debate, review)
+```
+
+A small pointer file (`00_config/.vault-path`) in this repo tells the board where your vault is. This file is git-ignored.
 
 ---
 
@@ -264,8 +286,9 @@ Configure data sources via `/setup` or edit `00_config/board.md` directly.
 board_of_advisors/
 ├── CLAUDE.md                    # Operating manual for agents
 ├── 00_config/
-│   ├── board.md                 # Board config: data sources, active advisors
-│   └── context.md               # Your business context
+│   ├── board.md                 # Board config template (example)
+│   ├── context.md               # Business context template (example)
+│   └── .vault-path              # Local pointer to user's vault (git-ignored)
 ├── 01_advisors/
 │   ├── steve-jobs/              # Persona + frameworks for each advisor
 │   ├── warren-buffett/
@@ -276,24 +299,19 @@ board_of_advisors/
 │   ├── sun-tzu/
 │   ├── harvey-specter/
 │   └── alex-hormozi/
-├── 02_sessions/                 # Saved session records (institutional memory)
+├── 02_sessions/                 # Session template (live sessions saved to vault)
 ├── 03_playbooks/                # How each session type works
 ├── .claude/
 │   ├── agents/                  # 11 subagent definitions
 │   └── commands/                # 6 slash commands
-└── dashboards/                  # Obsidian Dataview dashboards
+└── dashboards/                  # Obsidian Dataview dashboards (reference)
 ```
 
 ---
 
 ## Obsidian Integration
 
-This repo doubles as an [Obsidian](https://obsidian.md) vault. Open it in Obsidian to:
-
-- Browse advisor personas and frameworks with graph view
-- Review past session records with Dataview dashboards
-- Create new sessions using Templater templates
-- Connect to your business vault for cross-reference
+This repo contains advisor personas and frameworks browsable in [Obsidian](https://obsidian.md). Your session records and board config live in your own vault under `board/`, keeping everything searchable and linkable alongside your business notes.
 
 ---
 
@@ -311,7 +329,7 @@ This repo doubles as an [Obsidian](https://obsidian.md) vault. Open it in Obsidi
 2. **Each advisor stays in character.** No generic AI filler. Steve Jobs is blunt. Buffett uses baseball analogies. Hormozi talks in LTV:CAC ratios.
 3. **Context over speculation.** If your data doesn't cover a topic, advisors say so rather than guessing.
 4. **No sycophancy.** Advisors push back. They challenge your assumptions. That's the job.
-5. **Session records build institutional memory.** Every board session is saved. Patterns emerge over time.
+5. **Your data stays yours.** Session records and business context live in your vault, not in this repo.
 
 ---
 

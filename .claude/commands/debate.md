@@ -16,9 +16,10 @@ If no question was provided, ask for one. Good debate questions have legitimate 
 
 ## Step 1 — Load config and context
 
-1. Read `00_config/board.md` for active advisors and data sources
-2. Read `00_config/context.md` for business overview
-3. Dispatch `context-loader` with the question
+1. Read `00_config/.vault-path` to get the vault path. If the file does not exist, tell the user: "No vault configured. Run `/setup` first to connect your Obsidian vault." and stop.
+2. Read `{vault_path}/board/config/board.md` for active advisors and data sources
+3. Read `{vault_path}/board/config/context.md` for business overview
+4. Dispatch `context-loader` with the question
 
 ## Step 2 — Round 1: Initial positions
 
@@ -52,6 +53,6 @@ Dispatch `board-synthesizer` with ALL Round 1 and Round 2 responses. The synthes
 
 ## Step 6 — Record and output
 
-Save session with `session-type: debate` to `02_sessions/{YYYY-MM-DD}-debate-{slug}.md`.
+Save session with `session-type: debate` to `{vault_path}/board/sessions/{YYYY-MM-DD}-debate-{slug}.md`.
 
 Display the full synthesis. Note which fault lines remain unresolved — these are the areas where the user's judgment is most needed.

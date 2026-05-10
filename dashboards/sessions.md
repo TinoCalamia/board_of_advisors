@@ -5,7 +5,8 @@ last-updated: 2026-05-10
 
 # Board Sessions
 
-> [!info] Requires the **Dataview** community plugin. Settings → Community plugins → Browse → search "Dataview" → Install → Enable.
+> [!info] This dashboard works inside your Obsidian vault. `/setup` copies it to `board/dashboards/` automatically.
+> Requires the **Dataview** community plugin. Settings -> Community plugins -> Browse -> search "Dataview" -> Install -> Enable.
 
 ## Recent Sessions
 
@@ -14,7 +15,7 @@ TABLE
   session-type AS "Type",
   question AS "Question",
   advisors AS "Advisors"
-FROM "02_sessions"
+FROM "board/sessions"
 WHERE type = "session"
 SORT date DESC
 LIMIT 20
@@ -25,7 +26,7 @@ LIMIT 20
 ```dataview
 TABLE
   length(rows) AS "Count"
-FROM "02_sessions"
+FROM "board/sessions"
 WHERE type = "session"
 GROUP BY session-type
 ```
@@ -34,7 +35,7 @@ GROUP BY session-type
 
 ```dataview
 LIST question
-FROM "02_sessions"
+FROM "board/sessions"
 WHERE type = "session" AND date >= date(today) - dur(30 days)
 SORT date DESC
 ```
