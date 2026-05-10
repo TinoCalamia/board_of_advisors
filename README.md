@@ -364,7 +364,7 @@ MIT
 
 ## Credits
 
-The concept of an AI Board of Directors was created by [Florian Klöckner](https://www.linkedin.com/in/kloeckner/). Watch the original presentation: [YouTube](https://www.youtube.com/watch?v=YNavwk7qk24&t=3215s).
+The concept of an AI Board of Directors was created by [Philipp Klöckner](https://www.linkedin.com/in/kloeckner/). Watch the original presentation: [YouTube](https://www.youtube.com/watch?v=YNavwk7qk24&t=3215s).
 
 This repo is a Claude Code implementation of his idea — turning the concept into executable subagents with real decision frameworks and data integration.
 
