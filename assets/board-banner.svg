@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="320" viewBox="0 0 800 320">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1628;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a2f4e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#c9a96e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e8d5a8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="320" fill="url(#bg)" rx="12"/>
+
+  <!-- Top accent line -->
+  <rect x="40" y="30" width="60" height="4" fill="url(#accent)" rx="2"/>
+
+  <!-- Subtitle -->
+  <text x="40" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#c9a96e" letter-spacing="4" text-transform="uppercase">A VIRTUAL ADVISORY COUNCIL</text>
+
+  <!-- Title -->
+  <text x="40" y="105" font-family="Georgia, 'Times New Roman', serif" font-size="42" fill="#ffffff" font-weight="bold">Board of Advisors</text>
+
+  <!-- Tagline -->
+  <text x="40" y="135" font-family="Georgia, 'Times New Roman', serif" font-size="16" fill="#8899aa" font-style="italic">Nine legendary minds. One conversation. Summon them on demand.</text>
+
+  <!-- Advisor cards row 1 -->
+  <rect x="40" y="165" width="150" height="55" fill="#0f2038" rx="6" stroke="#1a3050" stroke-width="1"/>
+  <text x="50" y="183" font-family="system-ui, sans-serif" font-size="10" fill="#c9a96e">01</text>
+  <text x="50" y="200" font-family="system-ui, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">Steve Jobs</text>
+  <text x="50" y="213" font-family="system-ui, sans-serif" font-size="9" fill="#6688aa" letter-spacing="1.5">INNOVATION</text>
+
+  <rect x="200" y="165" width="150" height="55" fill="#0f2038" rx="6" stroke="#1a3050" stroke-width="1"/>
+  <text x="210" y="183" font-family="system-ui, sans-serif" font-size="10" fill="#c9a96e">02</text>
+  <text x="210" y="200" font-family="system-ui, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">Warren Buffett</text>
+  <text x="210" y="213" font-family="system-ui, sans-serif" font-size="9" fill="#6688aa" letter-spacing="1.5">FINANCE &amp; M&amp;A</text>
+
+  <rect x="360" y="165" width="150" height="55" fill="#0f2038" rx="6" stroke="#1a3050" stroke-width="1"/>
+  <text x="370" y="183" font-family="system-ui, sans-serif" font-size="10" fill="#c9a96e">03</text>
+  <text x="370" y="200" font-family="system-ui, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">David Ogilvy</text>
+  <text x="370" y="213" font-family="system-ui, sans-serif" font-size="9" fill="#6688aa" letter-spacing="1.5">MEDIA &amp; ADS</text>
+
+  <rect x="520" y="165" width="150" height="55" fill="#0f2038" rx="6" stroke="#1a3050" stroke-width="1"/>
+  <text x="530" y="183" font-family="system-ui, sans-serif" font-size="10" fill="#c9a96e">04</text>
+  <text x="530" y="200" font-family="system-ui, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">Andrew Grove</text>
+  <text x="530" y="213" font-family="system-ui, sans-serif" font-size="9" fill="#6688aa" letter-spacing="1.5">MANAGEMENT</text>
+
+  <!-- Half card for 05 -->
+  <rect x="680" y="165" width="90" height="55" fill="#0f2038" rx="6" stroke="#1a3050" stroke-width="1"/>
+  <text x="690" y="183" font-family="system-ui, sans-serif" font-size="10" fill="#c9a96e">05</text>
+  <text x="690" y="200" font-family="system-ui, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">MrBeast</text>
+  <text x="690" y="213" font-family="system-ui, sans-serif" font-size="9" fill="#6688aa" letter-spacing="1.5">ATTENTION</text>
+
+  <!-- Advisor cards row 2 -->
+  <rect x="40" y="230" width="150" height="55" fill="#0f2038" rx="6" stroke="#1a3050" stroke-width="1"/>
+  <text x="50" y="248" font-family="system-ui, sans-serif" font-size="10" fill="#c9a96e">06</text>
+  <text x="50" y="265" font-family="system-ui, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">Dalai Lama</text>
+  <text x="50" y="278" font-family="system-ui, sans-serif" font-size="9" fill="#6688aa" letter-spacing="1.5">MORAL &amp; WISDOM</text>
+
+  <rect x="200" y="230" width="150" height="55" fill="#0f2038" rx="6" stroke="#1a3050" stroke-width="1"/>
+  <text x="210" y="248" font-family="system-ui, sans-serif" font-size="10" fill="#c9a96e">07</text>
+  <text x="210" y="265" font-family="system-ui, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">Sun Tzu</text>
+  <text x="210" y="278" font-family="system-ui, sans-serif" font-size="9" fill="#6688aa" letter-spacing="1.5">STRATEGY</text>
+
+  <rect x="360" y="230" width="150" height="55" fill="#0f2038" rx="6" stroke="#1a3050" stroke-width="1"/>
+  <text x="370" y="248" font-family="system-ui, sans-serif" font-size="10" fill="#c9a96e">08</text>
+  <text x="370" y="265" font-family="system-ui, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">Harvey Specter</text>
+  <text x="370" y="278" font-family="system-ui, sans-serif" font-size="9" fill="#6688aa" letter-spacing="1.5">NEGOTIATION</text>
+
+  <rect x="520" y="230" width="150" height="55" fill="#0f2038" rx="6" stroke="#1a3050" stroke-width="1"/>
+  <text x="530" y="248" font-family="system-ui, sans-serif" font-size="10" fill="#c9a96e">09</text>
+  <text x="530" y="265" font-family="system-ui, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">Alex Hormozi</text>
+  <text x="530" y="278" font-family="system-ui, sans-serif" font-size="9" fill="#6688aa" letter-spacing="1.5">SALES &amp; OFFERS</text>
+
+  <!-- Bottom tagline -->
+  <text x="400" y="310" font-family="system-ui, sans-serif" font-size="10" fill="#4a6080" text-anchor="middle" letter-spacing="2">POWERED BY CLAUDE CODE</text>
+</svg>
