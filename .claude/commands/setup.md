@@ -1,7 +1,7 @@
 ---
 description: Interactive configuration — set your vault path, data sources, business context, and active advisors
 argument-hint: (no arguments needed)
-allowed-tools: [Read, Write, Edit, Bash]
+allowed-tools: [Read, Write, Edit, Bash, mcp__claude_ai_Gmail__list_labels, mcp__claude_ai_Google_Calendar__list_calendars, mcp__claude_ai_Google_Drive__list_recent_files, mcp__claude_ai_Notion__notion-get-teams, WebSearch]
 ---
 
 # Setup
@@ -18,25 +18,71 @@ Ask: "What is the path to your Obsidian vault? This is where the board reads you
 
 Validate the path exists using `ls`. If it doesn't exist, tell the user and ask again.
 
+Once validated, do a quick scan of the vault to show the user what the board will have access to:
+
+```bash
+find {vault_path} -name "*.md" -not -path "*/.obsidian/*" -not -path "*/.git/*" | wc -l
+```
+
+Report: "Found {N} markdown files in your vault. The board will search these for relevant context when you ask questions."
+
 Update `vault_path` in `00_config/board.md`.
 
-## Step 3 — Connected services
+## Step 3 — Auto-detect connected services
 
-Show the available data sources:
+Probe each MCP service to determine which are actually connected. Do this silently — don't ask the user to configure anything, just test each one:
 
-| Source | What it provides |
-|---|---|
-| Google Drive | Shared docs, spreadsheets, slide decks |
-| Notion | Wikis, databases, project trackers |
-| Gmail | Recent correspondence, deal threads |
-| Google Calendar | Upcoming commitments, availability |
-| Web Search | Current market data, competitor info |
+### Gmail
+Try calling `mcp__claude_ai_Gmail__list_labels`. 
+- If it succeeds: Gmail is connected. Report: "Gmail — connected (will search recent threads for context)"
+- If it fails or tool is unavailable: Report: "Gmail — not connected"
 
-Ask: "Which of these do you want to enable? (Web search is on by default. The others require MCP servers to be connected.)"
+### Google Calendar
+Try calling `mcp__claude_ai_Google_Calendar__list_calendars`.
+- If it succeeds: Calendar is connected. Report: "Google Calendar — connected (will check upcoming events for context)"
+- If it fails: Report: "Google Calendar — not connected"
 
-Update the enabled flags in `00_config/board.md`.
+### Google Drive
+Try calling `mcp__claude_ai_Google_Drive__list_recent_files`.
+- If it succeeds: Drive is connected. Report: "Google Drive — connected (will search docs and spreadsheets for context)"
+- If it fails: Report: "Google Drive — not connected"
+
+### Notion
+Try calling `mcp__claude_ai_Notion__notion-get-teams`.
+- If it succeeds: Notion is connected. Report: "Notion — connected (will search pages and databases for context)"
+- If it fails: Report: "Notion — not connected"
+
+### Web Search
+Try a test `WebSearch` for "test".
+- If it succeeds: Report: "Web Search — available (will search for market data and competitor info)"
+- If it fails: Report: "Web Search — not available"
+
+Present the results as a status table:
+
+```
+Data Sources:
+
+  Obsidian Vault   ✓  {vault_path} ({N} files)
+  Gmail            ✓  connected
+  Google Calendar  ✓  connected
+  Google Drive     ✗  not connected
+  Notion           ✗  not connected
+  Web Search       ✓  available
+```
+
+For any service that is NOT connected, briefly explain how to connect it:
+
+"To connect additional services, enable them in Claude Code:
+- **Gmail / Calendar / Drive**: Go to claude.ai/code → Settings → Connected Apps → connect your Google account
+- **Notion**: Go to claude.ai/code → Settings → Connected Apps → connect Notion
+
+You can re-run `/setup` anytime after connecting new services."
+
+Update the enabled flags in `00_config/board.md` based on what actually responded. Only set `true` for services that successfully responded.
 
 ## Step 4 — Business context
+
+Tell the user: "Now let's give the board context about your business. The more specific you are, the more actionable the advice. Answer each question — you can always update these later in `00_config/context.md`."
 
 Ask these questions one at a time. Wait for each answer before asking the next:
 
@@ -49,7 +95,7 @@ Ask these questions one at a time. Wait for each answer before asking the next:
 7. "Any key numbers you want the board to know? (Revenue, runway, growth rate, customer count, etc.)"
 8. "Who are your main competitors and what's your differentiation?"
 
-Write all answers to `00_config/context.md`, preserving the existing structure.
+Write all answers to `00_config/context.md`, preserving the existing structure and filling in the fields.
 
 ## Step 5 — Board composition
 
@@ -73,9 +119,20 @@ Update active flags if needed.
 
 ## Step 6 — Confirmation
 
-Output a summary of the configuration. Then suggest:
+Output a full summary:
 
-"Setup complete. Try your first board session:
-- `/ask hormozi How should we price our product?`
-- `/convene-board Should we raise funding or bootstrap?`
-- `/strategic-review`"
+```
+Setup complete!
+
+  Company:        {name}
+  Stage:          {stage}
+  Team:           {size}
+  Vault:          {path} ({N} files)
+  Data sources:   {list of connected sources}
+  Active advisors: {count}/9
+
+Try your first board session:
+  /ask hormozi How should we price our product?
+  /convene-board Should we raise funding or bootstrap?
+  /strategic-review
+```
